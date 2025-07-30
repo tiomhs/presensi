@@ -1,4 +1,5 @@
-<div id="kt_header" style="" class="header align-items-stretch">
+<div>
+    <div id="kt_header" style="" class="header align-items-stretch">
     <!--begin::Brand-->
     <div class="header-brand">
         <!--begin::Logo-->
@@ -70,4 +71,5 @@
         <!--end::Toolbar container-->
     </div>
     <!--end::Toolbar-->
+</div>
 </div>

@@ -65,14 +65,14 @@
         <div class="page d-flex flex-row flex-column-fluid">
             <!--begin::Aside-->
             <div id="kt_aside" class="aside" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
-                @include('layouts.sidebar')
+                <x-sidebar.main />
             </div>  
             <!--end::Aside-->
 
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
-                @include('layouts.header')
+                <x-header.main />
                 <!--end::Header-->
 
                 <!--begin::Content-->
@@ -91,7 +91,7 @@
                 <!--end::Content-->
 
                 <!--begin::Footer-->
-                @include('layouts.footer')
+                <x-footer.main />
                 <!--end::Footer-->
             </div>
             <!--end::Wrapper-->

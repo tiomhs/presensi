@@ -1,15 +1,14 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Dashboard\Index;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('homepage');
 })->name('homepage');
 
-Route::get('/homepage', function () {
-    return view('homepage');
-})->name('homepage');
+Route::get('/dashboard', Index::class)->name('dashboard');
 
 
 
