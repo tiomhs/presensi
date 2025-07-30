@@ -9,6 +9,8 @@ Route::get('/', function () {
 })->name('homepage');
 
 Route::get('/dashboard', Index::class)->name('dashboard');
+Route::get('/dashboard/users', \App\Livewire\Dashboard\User\Index::class)->name('dashboard.users');
+// Route::get('/dashboard/users/{user}', \App\Livewire\Dashboard\User\Show::class)->name('users.show');
 
 
 
