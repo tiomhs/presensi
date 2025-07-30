@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('qr_sessions', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->string('token')->unique();
-            $table->enum('status', ['active', 'expired'])->default('active');
-            $table->datetime('expires_at')->nullable();
+            $table->foreignId('event_committee_id')->constrained('event_committees')->onDelete('cascade');
+            $table->enum('status', ['present', 'absent', 'late'])->default('absent');
+            $table->string('note')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('qr_sessions');
+        Schema::dropIfExists('attendances');
     }
 };

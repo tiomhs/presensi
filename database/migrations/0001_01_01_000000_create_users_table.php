@@ -15,12 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('nim')->unique();
             $table->string('password');
-            $table->enum('role', ['admin', 'panitia'])->default('panitia');
-            $table->string('address')->nullable();
-            $table->string('nim')->nullable();
-            $table->string('divisi')->nullable();
-            $table->string('jabatan')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
