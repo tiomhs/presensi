@@ -37,7 +37,7 @@
                                     Launch demo modal
                                 </button> --}}
 
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_user_modal">
+                                <button type="button" class="btn btn-primary" wire:click="resetForm">
                                 <i class="ki-duotone ki-plus fs-2"></i>Add User</button>
                                 <!--end::Add user-->
                             </div>
@@ -92,14 +92,14 @@
 
 
     {{-- modal --}}
-    <div wire:ignore.self class="modal fade" id="add_user_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add_user_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered mw-650px">
             <!--begin::Modal content-->
             <div class="modal-content">
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_add_user_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">Add User</h2>
+                    <h2 class="fw-bold">{{ $isEdit ? 'Edit User' : 'Add User' }}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-icon-primary" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -112,9 +112,9 @@
                 </div>
                 <!--end::Modal header-->
                 <!--begin::Modal body-->
-                <div wire:ignore.self class="modal-body px-5 my-7">
+                <div class="modal-body px-5 my-7">
                     <!--begin::Form-->
-                    <form id="kt_modal_add_user_form" class="form" wire:submit.prevent="submit" >
+                    <form id="kt_modal_add_user_form" class="form" wire:submit.prevent="{{ $isEdit ? 'update' : 'submit' }}" >
                         <!--begin::Scroll-->
                         <div class="d-flex flex-column scroll-y px-5 px-lg-10" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
                             
@@ -179,9 +179,7 @@
                         <div class="text-center pt-10">
                             <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
                             <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                                <span class="indicator-label">Submit</span>
-                                <span class="indicator-progress">Please wait...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                <span class="indicator-label">{{ $isEdit ? 'Update' : 'Submit' }}</span>
                             </button>
                         </div>
                     </form>
@@ -194,6 +192,7 @@
         </div>
     </div>
 
+
     @push('scripts')
         <script>
             window.addEventListener('close-modal', () => {
@@ -203,6 +202,20 @@
                     modalInstance.hide();
                 }
             });
+            
+            window.addEventListener('open-modal', () => {
+                const modalEl = document.getElementById('add_user_modal');
+
+                setTimeout(() => {
+                        const modal = new bootstrap.Modal(modalEl);
+                        modal.show();
+                    }, 200); // kasih delay supaya datanya sempet kerefresh dulu
+            });
+
+            window.addEventListener('refresh-form', () => {
+                Livewire.dispatch('refresh');
+            });
+
 
             Livewire.on('toast', ({ type, message }) => {
                 toastr[type](message); // "type" bisa 'success', 'error', dll

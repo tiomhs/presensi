@@ -8,10 +8,13 @@ use Livewire\Component;
 class Index extends Component
 {
     public $search = '';
-    public $name = '';
-    public $email = '';
-    public $nim = '';
-    public $password = '';
+    public $name;
+    public $email;
+    public $nim;
+    public $password;
+
+    public $isEdit = false;
+    
 
     protected $queryString = [
         'search' => ['except' => '']
@@ -54,10 +57,15 @@ class Index extends Component
 
     public function resetForm()
     {
+        $this->reset(['name', 'email', 'nim', 'password']);
         $this->name = '';
         $this->email = '';
         $this->nim = '';
         $this->password = '';
+        $this->isEdit = false;
+        $this->dispatch('refresh-form');
+        $this->dispatch('open-modal');
+
     }
 
     public function submit()
@@ -71,12 +79,27 @@ class Index extends Component
             'password' => bcrypt($this->password),
         ]);
 
-       $this->reset(['name', 'email', 'nim', 'password']); // ✅ Reset field aja
+    //    $this->reset(['name', 'email', 'nim', 'password']); // ✅ Reset field aja
         $this->dispatch('close-modal');
         $this->dispatch('toast', [
             'type' => 'success',
             'message' => 'User berhasil dibuat!'
         ]);
+    }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        // dd($user);
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->nim = $user->nim;
+        $this->password = ''; // Password tidak diisi saat edit
+        $this->isEdit = true;
+
+        // Emit event to open modal
+        $this->dispatch('refresh-form');
+        $this->dispatch('open-modal');
     }
 
 
