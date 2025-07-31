@@ -16,7 +16,7 @@
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                <input type="text" class="form-control form-control-solid w-250px ps-13" placeholder="Search user, email, nim" wire:model.live.debounce.250ms="search" />
+                                <input type="text" class="form-control form-control-solid w-250px ps-13" placeholder="Search user, email, nim" wire:model.live.debounce.250ms="search" data-kt-search-element="input"/>
                             </div>
                             <!--end::Search-->
                         </div>
@@ -33,7 +33,11 @@
                                 </i>Export</button>
                                 <!--end::Export-->
                                 <!--begin::Add user-->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
+                                {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Launch demo modal
+                                </button> --}}
+
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_user_modal">
                                 <i class="ki-duotone ki-plus fs-2"></i>Add User</button>
                                 <!--end::Add user-->
                             </div>
@@ -45,221 +49,6 @@
                                 <button type="button" class="btn btn-danger" data-kt-user-table-select="delete_selected">Delete Selected</button>
                             </div>
                             <!--end::Group actions-->
-                            <!--begin::Modal - Add task-->
-                            <div class="modal fade" id="kt_modal_add_user" tabindex="-1" aria-hidden="true">
-                                <!--begin::Modal dialog-->
-                                <div class="modal-dialog modal-dialog-centered mw-650px">
-                                    <!--begin::Modal content-->
-                                    <div class="modal-content">
-                                        <!--begin::Modal header-->
-                                        <div class="modal-header" id="kt_modal_add_user_header">
-                                            <!--begin::Modal title-->
-                                            <h2 class="fw-bold">Add User</h2>
-                                            <!--end::Modal title-->
-                                            <!--begin::Close-->
-                                            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
-                                                <i class="ki-duotone ki-cross fs-1">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>
-                                            </div>
-                                            <!--end::Close-->
-                                        </div>
-                                        <!--end::Modal header-->
-                                        <!--begin::Modal body-->
-                                        <div class="modal-body px-5 my-7">
-                                            <!--begin::Form-->
-                                            <form id="kt_modal_add_user_form" class="form" action="#">
-                                                <!--begin::Scroll-->
-                                                <div class="d-flex flex-column scroll-y px-5 px-lg-10" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                                                    <!--begin::Input group-->
-                                                    <div class="fv-row mb-7">
-                                                        <!--begin::Label-->
-                                                        <label class="d-block fw-semibold fs-6 mb-5">Avatar</label>
-                                                        <!--end::Label-->
-                                                        <!--begin::Image placeholder-->
-                                                        <style>.image-input-placeholder { background-image: url('assets/media/svg/files/blank-image.svg'); } [data-bs-theme="dark"] .image-input-placeholder { background-image: url('assets/media/svg/files/blank-image-dark.svg'); }</style>
-                                                        <!--end::Image placeholder-->
-                                                        <!--begin::Image input-->
-                                                        <div class="image-input image-input-outline image-input-placeholder" data-kt-image-input="true">
-                                                            <!--begin::Preview existing avatar-->
-                                                            <div class="image-input-wrapper w-125px h-125px" style="background-image: url(assets/media/avatars/300-6.jpg);"></div>
-                                                            <!--end::Preview existing avatar-->
-                                                            <!--begin::Label-->
-                                                            <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
-                                                                <i class="ki-duotone ki-pencil fs-7">
-                                                                    <span class="path1"></span>
-                                                                    <span class="path2"></span>
-                                                                </i>
-                                                                <!--begin::Inputs-->
-                                                                <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                                                                <input type="hidden" name="avatar_remove" />
-                                                                <!--end::Inputs-->
-                                                            </label>
-                                                            <!--end::Label-->
-                                                            <!--begin::Cancel-->
-                                                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
-                                                                <i class="ki-duotone ki-cross fs-2">
-                                                                    <span class="path1"></span>
-                                                                    <span class="path2"></span>
-                                                                </i>
-                                                            </span>
-                                                            <!--end::Cancel-->
-                                                            <!--begin::Remove-->
-                                                            <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
-                                                                <i class="ki-duotone ki-cross fs-2">
-                                                                    <span class="path1"></span>
-                                                                    <span class="path2"></span>
-                                                                </i>
-                                                            </span>
-                                                            <!--end::Remove-->
-                                                        </div>
-                                                        <!--end::Image input-->
-                                                        <!--begin::Hint-->
-                                                        <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
-                                                        <!--end::Hint-->
-                                                    </div>
-                                                    <!--end::Input group-->
-                                                    <!--begin::Input group-->
-                                                    <div class="fv-row mb-7">
-                                                        <!--begin::Label-->
-                                                        <label class="required fw-semibold fs-6 mb-2">Full Name</label>
-                                                        <!--end::Label-->
-                                                        <!--begin::Input-->
-                                                        <input type="text" name="user_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Full name" value="Emma Smith" />
-                                                        <!--end::Input-->
-                                                    </div>
-                                                    <!--end::Input group-->
-                                                    <!--begin::Input group-->
-                                                    <div class="fv-row mb-7">
-                                                        <!--begin::Label-->
-                                                        <label class="required fw-semibold fs-6 mb-2">Email</label>
-                                                        <!--end::Label-->
-                                                        <!--begin::Input-->
-                                                        <input type="email" name="user_email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" value="smith@kpmg.com" />
-                                                        <!--end::Input-->
-                                                    </div>
-                                                    <!--end::Input group-->
-                                                    <!--begin::Input group-->
-                                                    <div class="mb-5">
-                                                        <!--begin::Label-->
-                                                        <label class="required fw-semibold fs-6 mb-5">Role</label>
-                                                        <!--end::Label-->
-                                                        <!--begin::Roles-->
-                                                        <!--begin::Input row-->
-                                                        <div class="d-flex fv-row">
-                                                            <!--begin::Radio-->
-                                                            <div class="form-check form-check-custom form-check-solid">
-                                                                <!--begin::Input-->
-                                                                <input class="form-check-input me-3" name="user_role" type="radio" value="0" id="kt_modal_update_role_option_0" checked='checked' />
-                                                                <!--end::Input-->
-                                                                <!--begin::Label-->
-                                                                <label class="form-check-label" for="kt_modal_update_role_option_0">
-                                                                    <div class="fw-bold text-gray-800">Administrator</div>
-                                                                    <div class="text-gray-600">Best for business owners and company administrators</div>
-                                                                </label>
-                                                                <!--end::Label-->
-                                                            </div>
-                                                            <!--end::Radio-->
-                                                        </div>
-                                                        <!--end::Input row-->
-                                                        <div class='separator separator-dashed my-5'></div>
-                                                        <!--begin::Input row-->
-                                                        <div class="d-flex fv-row">
-                                                            <!--begin::Radio-->
-                                                            <div class="form-check form-check-custom form-check-solid">
-                                                                <!--begin::Input-->
-                                                                <input class="form-check-input me-3" name="user_role" type="radio" value="1" id="kt_modal_update_role_option_1" />
-                                                                <!--end::Input-->
-                                                                <!--begin::Label-->
-                                                                <label class="form-check-label" for="kt_modal_update_role_option_1">
-                                                                    <div class="fw-bold text-gray-800">Developer</div>
-                                                                    <div class="text-gray-600">Best for developers or people primarily using the API</div>
-                                                                </label>
-                                                                <!--end::Label-->
-                                                            </div>
-                                                            <!--end::Radio-->
-                                                        </div>
-                                                        <!--end::Input row-->
-                                                        <div class='separator separator-dashed my-5'></div>
-                                                        <!--begin::Input row-->
-                                                        <div class="d-flex fv-row">
-                                                            <!--begin::Radio-->
-                                                            <div class="form-check form-check-custom form-check-solid">
-                                                                <!--begin::Input-->
-                                                                <input class="form-check-input me-3" name="user_role" type="radio" value="2" id="kt_modal_update_role_option_2" />
-                                                                <!--end::Input-->
-                                                                <!--begin::Label-->
-                                                                <label class="form-check-label" for="kt_modal_update_role_option_2">
-                                                                    <div class="fw-bold text-gray-800">Analyst</div>
-                                                                    <div class="text-gray-600">Best for people who need full access to analytics data, but don't need to update business settings</div>
-                                                                </label>
-                                                                <!--end::Label-->
-                                                            </div>
-                                                            <!--end::Radio-->
-                                                        </div>
-                                                        <!--end::Input row-->
-                                                        <div class='separator separator-dashed my-5'></div>
-                                                        <!--begin::Input row-->
-                                                        <div class="d-flex fv-row">
-                                                            <!--begin::Radio-->
-                                                            <div class="form-check form-check-custom form-check-solid">
-                                                                <!--begin::Input-->
-                                                                <input class="form-check-input me-3" name="user_role" type="radio" value="3" id="kt_modal_update_role_option_3" />
-                                                                <!--end::Input-->
-                                                                <!--begin::Label-->
-                                                                <label class="form-check-label" for="kt_modal_update_role_option_3">
-                                                                    <div class="fw-bold text-gray-800">Support</div>
-                                                                    <div class="text-gray-600">Best for employees who regularly refund payments and respond to disputes</div>
-                                                                </label>
-                                                                <!--end::Label-->
-                                                            </div>
-                                                            <!--end::Radio-->
-                                                        </div>
-                                                        <!--end::Input row-->
-                                                        <div class='separator separator-dashed my-5'></div>
-                                                        <!--begin::Input row-->
-                                                        <div class="d-flex fv-row">
-                                                            <!--begin::Radio-->
-                                                            <div class="form-check form-check-custom form-check-solid">
-                                                                <!--begin::Input-->
-                                                                <input class="form-check-input me-3" name="user_role" type="radio" value="4" id="kt_modal_update_role_option_4" />
-                                                                <!--end::Input-->
-                                                                <!--begin::Label-->
-                                                                <label class="form-check-label" for="kt_modal_update_role_option_4">
-                                                                    <div class="fw-bold text-gray-800">Trial</div>
-                                                                    <div class="text-gray-600">Best for people who need to preview content data, but don't need to make any updates</div>
-                                                                </label>
-                                                                <!--end::Label-->
-                                                            </div>
-                                                            <!--end::Radio-->
-                                                        </div>
-                                                        <!--end::Input row-->
-                                                        <!--end::Roles-->
-                                                    </div>
-                                                    <!--end::Input group-->
-                                                </div>
-                                                <!--end::Scroll-->
-                                                <!--begin::Actions-->
-                                                <div class="text-center pt-10">
-                                                    <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                                                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                                                        <span class="indicator-label">Submit</span>
-                                                        <span class="indicator-progress">Please wait...
-                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                                    </button>
-                                                </div>
-                                                <!--end::Actions-->
-                                            </form>
-                                            <!--end::Form-->
-                                        </div>
-                                        <!--end::Modal body-->
-                                    </div>
-                                    <!--end::Modal content-->
-                                </div>
-                                <!--end::Modal dialog-->
-                            </div>
-                            <!--end::Modal - Add task-->
                         </div>
                         <!--end::Card toolbar-->
                     </div>
@@ -272,7 +61,7 @@
                                 <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                     <th class="w-10px pe-2">
                                         <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                            <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" value="1" />
+                                            <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" />
                                         </div>
                                     </th>
                                     <th class="min-w-125px">Name</th>
@@ -299,4 +88,125 @@
         </div>
         <!--end::Post-->
     </div>
+
+
+
+    {{-- modal --}}
+    <div wire:ignore.self class="modal fade" id="add_user_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered mw-650px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+                <!--begin::Modal header-->
+                <div class="modal-header" id="kt_modal_add_user_header">
+                    <!--begin::Modal title-->
+                    <h2 class="fw-bold">Add User</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-icon-primary" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <!--end::Modal header-->
+                <!--begin::Modal body-->
+                <div wire:ignore.self class="modal-body px-5 my-7">
+                    <!--begin::Form-->
+                    <form id="kt_modal_add_user_form" class="form" wire:submit.prevent="submit" >
+                        <!--begin::Scroll-->
+                        <div class="d-flex flex-column scroll-y px-5 px-lg-10" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
+                            
+                            <!-- Name -->
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Name</label>
+                                <input type="text" 
+                                    name="name" 
+                                    autocomplete="off"
+                                    wire:model.defer="name"
+                                    class="form-control form-control-solid mb-3 mb-lg-0 @error('name') is-invalid @enderror" 
+                                    placeholder="Name" />
+                                @error('name')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Email -->
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Email</label>
+                                <input type="email" 
+                                    name="email"
+                                    autocomplete="off"
+                                    wire:model.defer="email"
+                                    class="form-control form-control-solid mb-3 mb-lg-0 @error('email') is-invalid @enderror" 
+                                    placeholder="example@domain.com" />
+                                @error('email')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- NIM -->
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">NIM</label>
+                                <input type="number" 
+                                    name="nim"
+                                    autocomplete="off"
+                                    wire:model.defer="nim"
+                                    class="form-control form-control-solid mb-3 mb-lg-0 @error('nim') is-invalid @enderror" 
+                                    placeholder="NIM" />
+                                @error('nim')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Password -->
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Password</label>
+                                <input type="password" 
+                                    name="password"
+                                    autocomplete="off"
+                                    wire:model.defer="password"
+                                    class="form-control form-control-solid mb-3 mb-lg-0 @error('password') is-invalid @enderror" 
+                                    placeholder="Password" />
+                                @error('password')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="text-center pt-10">
+                            <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
+                            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+                                <span class="indicator-label">Submit</span>
+                                <span class="indicator-progress">Please wait...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!--end::Form-->
+                </div>
+                <!--end::Modal body-->
+            </div>
+            <!--end::Modal content-->
+        </div>
+    </div>
+
+    @push('scripts')
+        <script>
+            window.addEventListener('close-modal', () => {
+                const modalEl = document.getElementById('add_user_modal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            });
+
+            Livewire.on('toast', ({ type, message }) => {
+                toastr[type](message); // "type" bisa 'success', 'error', dll
+            });
+        </script>
+    @endpush
 </div>

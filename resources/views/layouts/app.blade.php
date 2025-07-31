@@ -13,6 +13,7 @@
 
         <link href="{{ asset('storage/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('storage/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
@@ -102,11 +103,13 @@
     <!--end::Main-->
 
     @livewireScripts
+    @stack('scripts')
     <!--begin::Javascript Bundle-->
     <script>var hostUrl = "assets/";</script>
 
     <script src="{{ asset('storage/assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('storage/assets/js/scripts.bundle.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!--begin::Vendors Javascript (Page specific)-->
     <script src="{{ asset('storage/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>

@@ -12,7 +12,7 @@
             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                 <a href="../../demo8/dist/apps/user-management/users/view.html">
                     <div class="symbol-label">
-                        <img src="{{ asset('media/avatars/300-6.jpg') }}" alt="{{ $user->name }}" class="w-100" />
+                        {{-- <img src="{{ asset('storage/media/avatars/300-6.jpg') }}" alt="{{ $user->name }}" class="w-100" /> --}}
                     </div>
                 </a>
             </div>
