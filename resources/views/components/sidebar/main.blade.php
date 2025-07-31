@@ -883,11 +883,11 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link active" href="../../demo8/dist/index.html">
+                            <a class="menu-link active" href="{{ route('dashboard.users') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Default</span>
+                                <span class="menu-title">User Management</span>
                             </a>
                             <!--end:Menu link-->
                         </div>

@@ -1,3 +1,4 @@
+@props(['page'])
 <div>
     <div id="kt_header" style="" class="header align-items-stretch">
     <!--begin::Brand-->
@@ -53,16 +54,12 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Dashboards</li>
+                    <li class="breadcrumb-item text-muted">{{ $page }}</li>
                     <!--end::Item-->
                     <!--begin::Item-->
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-300 w-5px h-2px"></span>
                     </li>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Default</li>
-                    <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
             </div>

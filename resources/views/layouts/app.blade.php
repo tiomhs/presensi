@@ -74,7 +74,7 @@
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
-                <x-header.main />
+                <x-header.main page="{{ $page }}" />
                 <!--end::Header-->
 
                 <!--begin::Content-->

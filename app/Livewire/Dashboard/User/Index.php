@@ -33,7 +33,9 @@ class Index extends Component
     {
         return view('livewire.dashboard.user.index', [
             'users' => $this->getUsers(),
-        ])->layout('layouts.app');
+        ])->layout('layouts.app', [
+            'page' => 'User Management',
+        ]);
     }
 
     public function getUsers()
