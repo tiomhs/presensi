@@ -10,6 +10,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', Index::class)->name('dashboard');
 Route::get('/dashboard/users', \App\Livewire\Dashboard\User\Index::class)->name('dashboard.users');
+Route::get('/dashboard/roles', \App\Livewire\Dashboard\Role\Index::class)->name('dashboard.roles');
 // Route::get('/dashboard/users/{user}', \App\Livewire\Dashboard\User\Show::class)->name('users.show');
 
 

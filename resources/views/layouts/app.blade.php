@@ -106,6 +106,7 @@
     @stack('scripts')
     <!--begin::Javascript Bundle-->
     <script>var hostUrl = "assets/";</script>
+    
 
     <script src="{{ asset('storage/assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('storage/assets/js/scripts.bundle.js') }}"></script>

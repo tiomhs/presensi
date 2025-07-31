@@ -895,11 +895,11 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="../../demo8/dist/dashboards/ecommerce.html">
+                            <a class="menu-link" href="{{ route('dashboard.roles') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">eCommerce</span>
+                                <span class="menu-title">Roles Management</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
