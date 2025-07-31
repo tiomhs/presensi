@@ -7,13 +7,22 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    use \Livewire\WithPagination;
+
     public $search = '';
     public $name;
     public $email;
     public $nim;
     public $password;
 
+    public $perPage = 10; // Default pagination
+
     public $isEdit = false;
+
+     public function updatingPerPage()
+    {
+        $this->resetPage(); // reset ke halaman 1 tiap kali jumlah per page diubah
+    }
     
 
     protected $queryString = [
@@ -35,7 +44,7 @@ class Index extends Component
                     ->orWhere('email', 'like', '%' . $this->search . '%')
                     ->orWhere('nim', 'like', '%' . $this->search . '%');
             });
-        })->get();
+        })->paginate($this->perPage);
     }
 
     public function data()

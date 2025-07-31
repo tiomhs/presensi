@@ -79,6 +79,38 @@
                             </tbody>
                         </table>
                         <!--end::Table-->
+
+                          {{--ini adalah pagination --}}
+                        <div class="row align-items-center">
+                            <!-- Select Jumlah Tampil -->
+                            <div class="col-sm-12 col-md-5 mb-2 mb-md-0">
+                                <div class="dataTables_length" id="kt_customers_table_length">
+                                    <label class="d-flex align-items-center">
+                                        <span class="me-2">Tampilkan</span>
+                                        <select wire:model.live="perPage" name="kt_customers_table_length" aria-controls="kt_customers_table" class="form-select form-select-sm form-select-solid w-auto">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                        <span class="ms-2">data</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pagination -->
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers d-flex justify-content-md-end justify-content-center" id="kt_customers_table_paginate">
+                                    <ul class="pagination mb-0">
+                                        <li class="paginate_button page-item previous" id="kt_customers_table_previous">
+                                             {{ $users->links() }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                     <!--end::Card body-->
                 </div>
