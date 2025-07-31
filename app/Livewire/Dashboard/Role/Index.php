@@ -12,7 +12,7 @@ class Index extends Component
     public $isEdit = false;
     public $name;
     public $roleId;
-
+    public $confirmingDeleteId = null;
 
 
     public function updatingPerPage()
@@ -93,8 +93,6 @@ class Index extends Component
         session()->flash('message', 'Role created successfully.');
     }
 
-
-
     public function render()
     {
         return view('livewire.dashboard.role.index', [
@@ -103,4 +101,20 @@ class Index extends Component
             'page' => 'Role Management',
         ]);
     }
+
+    public function confirmDelete($id)
+    {
+        $this->confirmingDeleteId = $id;
+        $this->dispatch('show-delete-confirmation');
+    }
+
+    public function delete()
+    {
+        $role = \App\Models\Role::findOrFail($this->confirmingDeleteId);
+        $role->delete();
+        $this->confirmingDeleteId = null;
+        session()->flash('message', 'Role deleted successfully.');
+    }
+
+
 }

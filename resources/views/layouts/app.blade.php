@@ -106,8 +106,7 @@
     @stack('scripts')
     <!--begin::Javascript Bundle-->
     <script>var hostUrl = "assets/";</script>
-    
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('storage/assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('storage/assets/js/scripts.bundle.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

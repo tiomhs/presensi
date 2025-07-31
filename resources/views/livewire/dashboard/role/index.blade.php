@@ -97,7 +97,7 @@
                                                 <!--end::Menu item-->
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
+                                                    <a href="#" class="menu-link px-3" wire:click.prevent='confirmDelete({{ $role->id }})' >Delete</a>
                                                 </div>
                                                 <!--end::Menu item-->
                                             </div>
@@ -256,4 +256,25 @@
             });
         </script>
     @endpush
+
+    @push('scripts')
+        <script>
+            window.addEventListener('show-delete-confirmation', event => {
+                Swal.fire({
+                    title: 'Yakin hapus?',
+                    text: "Data tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#aaa',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('delete')
+                    }
+                });
+            });
+        </script>
+    @endpush
+
 </div>
