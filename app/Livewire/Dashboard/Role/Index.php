@@ -78,7 +78,7 @@ class Index extends Component
         $this->resetForm();
         $this->isEdit = false;
         $this->roleId = null; // Reset roleId after update
-        session()->flash('message', 'Role updated successfully.');
+        $this->dispatch('success-alert');
     }
 
 
@@ -90,7 +90,11 @@ class Index extends Component
 
         \App\Models\Role::create($this->data());
         $this->dispatch('close-modal');
-        session()->flash('message', 'Role created successfully.');
+        $this->dispatch('show-alert', [
+            'type' => 'success',
+            'message' => 'Role berhasil ditambahkan!'
+        ]);
+
     }
 
     public function render()
@@ -113,7 +117,10 @@ class Index extends Component
         $role = \App\Models\Role::findOrFail($this->confirmingDeleteId);
         $role->delete();
         $this->confirmingDeleteId = null;
-        session()->flash('message', 'Role deleted successfully.');
+        $this->dispatch('show-alert', [
+            'type' => 'success',
+            'message' => 'Role berhasil dihapus!'
+        ]);
     }
 
 
