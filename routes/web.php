@@ -12,6 +12,8 @@ Route::get('/dashboard', Index::class)->name('dashboard');
 Route::get('/dashboard/users', \App\Livewire\Dashboard\User\Index::class)->name('dashboard.users');
 Route::get('/dashboard/roles', \App\Livewire\Dashboard\Role\Index::class)->name('dashboard.roles');
 Route::get('/dashboard/events', \App\Livewire\Dashboard\Event\Index::class)->name('dashboard.events');
+Route::get('/dashboard/events/{eventId}', \App\Livewire\Dashboard\Event\Detail::class)
+    ->name('dashboard.events.detail');
 Route::get('/dashboard/event-committees', \App\Livewire\Dashboard\EventCommittee\Index::class)->name('dashboard.eventCommittees');
 
 // Route::get('/dashboard/users/{user}', \App\Livewire\Dashboard\User\Show::class)->name('users.show');

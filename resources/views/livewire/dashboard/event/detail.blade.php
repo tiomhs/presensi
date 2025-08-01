@@ -26,7 +26,7 @@
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                 <button type="button" class="btn btn-primary" wire:click="create">
-                                <i class="ki-duotone ki-plus fs-2"></i>Add Events</button>
+                                <i class="ki-duotone ki-plus fs-2"></i>Add Panitia</button>
                                 <!--end::Add user-->
                             </div>
                             <!--end::Toolbar-->
@@ -52,15 +52,17 @@
                                             <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" />
                                         </div>
                                     </th>
-                                    <th class="min-w-125px">Name</th>
-                                    <th class="min-w-125px text-center">Date</th>
-                                    <th class="min-w-125px text-center">Location</th>
+                                    <th class="min-w-125px">Event</th>
+                                    <th class="min-w-125px text-center">User</th>
+                                    <th class="min-w-125px text-center">Role</th>
+                                    <th class="min-w-125px text-center">Division</th>
                                     <th class="text-center min-w-100px">Actions</th>
                                 </tr>
                             </thead>
                             {{-- @dd($users) --}}
                             <tbody class="text-gray-600 fw-semibold">
                                 @foreach($events as $event)
+                                    {{-- @dd($event->event->name) --}}
                                     <tr>
                                         <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -80,18 +82,22 @@
                                             {{-- @dump($role) --}}
                                             <!--begin::User details-->
                                             <div class="d-flex flex-column">
-                                                <a href="../../demo8/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">{{ $event->name }}</a>
-                                                <span>{{ $event->name }}</span>
+                                                <a href="../../demo8/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">{{ $event->event->name }}</a>
+                                                <span>{{ $event->event->location }}</span>
                                             </div>
                                             <!--begin::User details-->
                                         </td>
 
                                         <td class="text-center">
-                                            <span class="badge badge-light-primary">{{ $event->date }}</span>
+                                            <span class="">{{ $event->user->name }}</span>
                                         </td>
 
                                         <td class="text-center">
-                                            {{ $event->location }}
+                                            <span class="badge badge-light-primary">{{ $event->role->name }}</span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            {{ $event->division }}
                                         </td>
 
                                         <td class="text-center">
@@ -99,12 +105,6 @@
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                             <!--begin::Menu-->
                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    {{-- <a href="{{ route('dashboard.roles.edit', $role->id) }}" class="menu-link px-3">Edit</a> --}}
-                                                    <a href="#" class="menu-link px-3" wire:click.prevent="detail({{ $event->id }})">Panitia</a>
-                                                </div>
-                                                <!--end::Menu item-->
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item px-3">
                                                     {{-- <a href="{{ route('dashboard.roles.edit', $role->id) }}" class="menu-link px-3">Edit</a> --}}
@@ -148,7 +148,7 @@
                                 <div class="dataTables_paginate paging_simple_numbers d-flex justify-content-md-end justify-content-center" id="kt_customers_table_paginate">
                                     <ul class="pagination mb-0">
                                         <li class="paginate_button page-item previous" id="kt_customers_table_previous">
-                                             {{ $events->links() }}
+                                             {{-- {{ $event->links() }} --}}
                                         </li>
                                     </ul>
                                 </div>
@@ -169,6 +169,7 @@
 
 
     {{-- modal --}}
+    {{-- modal --}}
     <div class="modal fade" id="add_role_modal"
      tabindex="-1"
      aria-labelledby="exampleModalLabel"
@@ -180,7 +181,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_add_user_header">
                     <!--begin::Modal title-->
-                    <h2 class="fw-bold">{{ $isEdit ? 'Edit Event' : 'Add Event' }}</h2>
+                    <h2 class="fw-bold">{{ $isEdit ? 'Edit Event Committee' : 'Add Event Committee' }}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-icon-primary" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -199,40 +200,42 @@
                     <form id="kt_modal_add_user_form" class="form" wire:submit.prevent="{{ $isEdit ? 'update' : 'submit' }}" >
                         <!--begin::Scroll-->
                         <div class="d-flex flex-column scroll-y px-5 px-lg-10" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-                            <input type="hidden" name="role_id" wire:model="roleId" />
-                            <!-- Name -->
+                            <input type="hidden" name="eventId" wire:model="eventId" />
+
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Name</label>
-                               <input type="text" 
-                                wire:model="name"
-                                class="form-control form-control-solid @error('name') is-invalid @enderror" 
-                                placeholder="Name"
-                               />
-                                @error('name')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
+                                <!--begin::Label-->
+                                <label class="form-label fs-5 fw-semibold mb-3">User:</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <select wire:model.defer='userId' class="form-select form-select-solid fw-bold" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-customer-table-filter="month" data-dropdown-parent="#kt-toolbar-filter">
+                                    <option value="">Select User</option>
+                                    @foreach ($users as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Date</label>
-                               <input type="date" 
-                                wire:model="date"
-                                class="form-control form-control-solid @error('date') is-invalid @enderror" 
-                                placeholder="Date"
-                               />
-                                @error('date')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
+                                <!--begin::Label-->
+                                <label class="form-label fs-5 fw-semibold mb-3">Role :</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <select wire:model.defer='roleId' class="form-select form-select-solid fw-bold" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-customer-table-filter="month" data-dropdown-parent="#kt-toolbar-filter">
+                                    <option value="">Select Role</option>
+                                    @foreach ($roles as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <!-- Location -->
+                            <!-- Division -->
                             <div class="fv-row mb-7">
-                                <label class="required fw-semibold fs-6 mb-2">Location</label>
+                                <label class="required fw-semibold fs-6 mb-2">Division</label>
                                <input type="text" 
-                                wire:model="location"
-                                class="form-control form-control-solid @error('location') is-invalid @enderror" 
-                                placeholder="Location"
+                                wire:model="division"
+                                class="form-control form-control-solid @error('division') is-invalid @enderror" 
+                                placeholder="Division"
                                />
-                                @error('location')
+                                @error('division')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>

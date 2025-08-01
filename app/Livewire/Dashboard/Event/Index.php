@@ -16,6 +16,7 @@ class Index extends Component
     public $eventId;
     public $confirmingDeleteId = null;
 
+
     public function updatingPerPage()
     {
         $this->resetPage(); // reset to page 1 whenever per page count is changed
@@ -31,6 +32,13 @@ class Index extends Component
         $this->date = '';
         $this->resetExcept('search', 'perPage');
         $this->reset(['name', 'eventId', 'isEdit']);
+    }
+
+    public function detail($id)
+    {
+        // dd('Detail Event ID: ' . $id);
+        // Redirect to the event committee page with the event ID
+        return redirect()->route('dashboard.events.detail', ['eventId' => $id]);
     }
 
     public function create()
