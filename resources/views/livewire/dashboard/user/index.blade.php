@@ -37,7 +37,7 @@
                                     Launch demo modal
                                 </button> --}}
 
-                                <button type="button" class="btn btn-primary" wire:click="resetForm">
+                                <button type="button" class="btn btn-primary" wire:click="create">
                                 <i class="ki-duotone ki-plus fs-2"></i>Add User</button>
                                 <!--end::Add user-->
                             </div>
@@ -124,7 +124,11 @@
 
 
     {{-- modal --}}
-    <div class="modal fade" id="add_user_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal fade" id="add_role_modal"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true"
+     wire:key="modal-{{ $isEdit ? $userId : 'create' }}">
           <div class="modal-dialog modal-dialog-centered mw-650px">
             <!--begin::Modal content-->
             <div class="modal-content">
@@ -208,9 +212,9 @@
                         </div>
 
                         <!-- Actions -->
-                        <div class="text-center pt-10">
+                         <div class="text-center pt-10">
                             <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+                            <button type="submit" class="btn btn-primary">
                                 <span class="indicator-label">{{ $isEdit ? 'Update' : 'Submit' }}</span>
                             </button>
                         </div>
@@ -228,7 +232,7 @@
     @push('scripts')
         <script>
             window.addEventListener('close-modal', () => {
-                const modalEl = document.getElementById('add_user_modal');
+                const modalEl = document.getElementById('add_role_modal');
                 const modalInstance = bootstrap.Modal.getInstance(modalEl);
                 if (modalInstance) {
                     modalInstance.hide();
@@ -236,22 +240,45 @@
             });
             
             window.addEventListener('open-modal', () => {
-                const modalEl = document.getElementById('add_user_modal');
-
                 setTimeout(() => {
-                        const modal = new bootstrap.Modal(modalEl);
-                        modal.show();
-                    }, 200); // kasih delay supaya datanya sempet kerefresh dulu
-            });
-
-            window.addEventListener('refresh-form', () => {
-                Livewire.dispatch('refresh');
-            });
-
-
-            Livewire.on('toast', ({ type, message }) => {
-                toastr[type](message); // "type" bisa 'success', 'error', dll
+                    const modalEl = document.getElementById('add_role_modal');
+                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl); // ← pakai getOrCreate biar nggak dobel
+                    modal.show();
+                }, 200); // kasih delay biar data Livewire udah kebaca
             });
         </script>
     @endpush
+
+    @push('scripts')
+        <script>
+            window.addEventListener('show-delete-confirmation', event => {
+                Swal.fire({
+                    title: 'Yakin hapus?',
+                    text: "Data tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#aaa',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('delete')
+                    }
+                });
+            });
+
+            window.addEventListener('show-alert', function (event) {
+                Swal.fire({
+                    toast: true,
+                    icon: event.detail[0].type,
+                    title: event.detail[0].message,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                });
+            });
+        </script>
+    @endpush
+    
 </div>
