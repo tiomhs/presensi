@@ -180,4 +180,9 @@ class Index extends Component
         ]);
     }
 
+    public function export()
+    {
+        return \App\Models\EventCommittee::export();
+    }
+
 }

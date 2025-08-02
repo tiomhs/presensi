@@ -60,6 +60,18 @@
                         <div class="card-toolbar gap-2">
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                                 <button wire:click="export" type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_export_users">
+                                    <i class="ki-duotone ki-exit-up fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    Export
+                                </button>
+                                <!--end::Add user-->
+                            </div>
+                            <!--end::Toolbar-->
+                            <!--begin::Toolbar-->
+                            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                 <button type="button" class="btn btn-primary" wire:click="generateQrCode({{ $eventId }})">
                                     Generate QR Code Absensi
                                 </button>
