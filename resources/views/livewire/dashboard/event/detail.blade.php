@@ -5,6 +5,41 @@
             <!--begin::Container-->
             <div id="kt_content_container" class="container-xxl">
                 <!--begin::Card-->
+                <div class="card card-flush pb-0 bgi-position-y-center bgi-no-repeat mb-10" style="background-size: auto calc(100% + 10rem); background-position-x: 100%; background-image: url('assets/media/illustrations/sketchy-1/4.png')">
+                    <!--begin::Card header-->
+                    <div class="card-header pt-10">
+                        <div class="d-flex align-items-center">
+                            <!--begin::Icon-->
+                            <div class="symbol symbol-circle me-5">
+                                <div class="symbol-label bg-transparent text-primary border border-secondary border-dashed">
+                                    <i class="ki-duotone ki-abstract-47 fs-2x text-primary">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </div>
+                            </div>
+                            <!--end::Icon-->
+                            <!--begin::Title-->
+                            <div class="d-flex flex-column">
+                                <h2 class="mb-1">{{ $event->name }}</h2>
+                                <div class="text-muted fw-bold">
+                                <a href="#">{{ $event->location }}</a>
+                                {{-- <span class="mx-3">|</span> --}}
+                                {{-- <a href="#">File Manager</a> --}}
+                                <span class="mx-3">|</span>{{ count($events)}} users</div>
+                            </div>
+                            <!--end::Title-->
+                        </div>
+                    </div>
+                    <!--end::Card header-->
+                    <!--begin::Card body-->
+                    <div class="card-body pb-2">
+                        
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card-->
+                <!--begin::Card-->
                 <div class="card">
                     <!--begin::Card header-->
                     <div class="card-header border-0 pt-6">
@@ -22,7 +57,15 @@
                         </div>
                         <!--begin::Card title-->
                         <!--begin::Card toolbar-->
-                        <div class="card-toolbar">
+                        <div class="card-toolbar gap-2">
+                            <!--begin::Toolbar-->
+                            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                                <button type="button" class="btn btn-primary" wire:click="presence({{ $eventId }})">
+                                    Cek Absensi
+                                </button>
+                                <!--end::Add user-->
+                            </div>
+                            <!--end::Toolbar-->
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                 <button type="button" class="btn btn-primary" wire:click="create">
@@ -52,10 +95,10 @@
                                             <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" />
                                         </div>
                                     </th>
-                                    <th class="min-w-125px">Event</th>
-                                    <th class="min-w-125px text-center">User</th>
+                                    <th class="min-w-125px">User</th>
                                     <th class="min-w-125px text-center">Role</th>
                                     <th class="min-w-125px text-center">Division</th>
+                                    <th class="min-w-125px text-center">Status Absen</th>
                                     <th class="text-center min-w-100px">Actions</th>
                                 </tr>
                             </thead>
@@ -82,14 +125,10 @@
                                             {{-- @dump($role) --}}
                                             <!--begin::User details-->
                                             <div class="d-flex flex-column">
-                                                <a href="../../demo8/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">{{ $event->event->name }}</a>
-                                                <span>{{ $event->event->location }}</span>
+                                                <a href="../../demo8/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">{{ $event->user->name }}</a>
+                                                <span>{{ $event->user->email }}</span>
                                             </div>
                                             <!--begin::User details-->
-                                        </td>
-
-                                        <td class="text-center">
-                                            <span class="">{{ $event->user->name }}</span>
                                         </td>
 
                                         <td class="text-center">
@@ -101,10 +140,21 @@
                                         </td>
 
                                         <td class="text-center">
+                                            {{ $event->status ? 'Hadir' : 'Tidak Hadir' }}
+                                            {{-- <span class="badge badge-light-success">Hadir</span> --}}
+                                            {{-- <span class="badge badge-light-danger">Tidak Hadir</span> --}}
+                                        </td>
+
+                                        <td class="text-center">
                                             <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                             <!--begin::Menu-->
                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                                <!--begin::Menu item-->
+                                                {{-- <div class="menu-item px-3">
+                                                    <a href="#" class="menu-link px-3" wire:click.prevent="presence({{ $event->id }})">Presensi </a>
+                                                </div> --}}
+                                                <!--end::Menu item-->
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item px-3">
                                                     {{-- <a href="{{ route('dashboard.roles.edit', $role->id) }}" class="menu-link px-3">Edit</a> --}}
@@ -165,8 +215,6 @@
         </div>
         <!--end::Post-->
     </div>
-
-
 
     {{-- modal --}}
     {{-- modal --}}
@@ -238,6 +286,18 @@
                                 @error('division')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
+                            </div>
+
+                            <div class="fv-row mb-7 {{ $isEdit ? '' : 'd-none' }}">
+                                <!--begin::Label-->
+                                <label class="form-label fs-5 fw-semibold mb-3">Status :</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <select wire:model.defer='status' class="form-select form-select-solid fw-bold" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-customer-table-filter="month" data-dropdown-parent="#kt-toolbar-filter">
+                                    <option value="">Select Status</option>
+                                    <option value="0">Tidak Hadir</option>
+                                    <option value="1">Hadir</option>
+                                </select>
                             </div>
 
                         </div>

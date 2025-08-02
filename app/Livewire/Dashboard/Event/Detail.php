@@ -13,6 +13,7 @@ class Detail extends Component
     public $userId;
     public $roleId;
     public $division;
+    public $status;
     public $eventCommittees;
     public $confirmingDeleteId = null;
     public $search = '';
@@ -75,6 +76,12 @@ class Detail extends Component
         $this->dispatch('open-modal');
     }
 
+    // public function presence($eventId)
+    // {
+    //     // dd('Presence method called with event ID: ' . $eventId);
+    //     return redirect()->route('dashboard.events.attendances', ['eventId' => $eventId]);
+    // }
+
     public function submit()
     {
         // dd($this->eventId, $this->userId, $this->roleId, $this->division);
@@ -84,16 +91,18 @@ class Detail extends Component
             'userId' => 'required',
             'roleId' => 'required',
             'division' => 'required',
+
         ]);
 
         // dd($this->eventId, $this->userId, $this->roleId, $this->division);
 
-        \App\Models\EventCommittee::updateOrCreate(
+        \App\Models\EventCommittee::create(
             [
                 'event_id' => $this->eventId,
                 'user_id' => $this->userId,
                 'role_id' => $this->roleId,
                 'division' => $this->division,
+                'status' => 0,
             ]
         );
 
@@ -132,6 +141,7 @@ class Detail extends Component
                 'user_id' => $this->userId,
                 'role_id' => $this->roleId,
                 'division' => $this->division,
+                'status' => $this->status, // Assuming status is a field in EventCommittee
             ]
         );
 
