@@ -10,5 +10,19 @@ class Event extends Model
        'id',
     ];
 
-  
+    /**
+     * Get the committees for the event.
+     */
+    public function committees()
+    {
+        return $this->hasMany(EventCommittee::class);       
+    }
+
+    /**
+     * Get the QR codes associated with the event.
+     */
+    public function qrCodes()
+    {
+        return $this->belongsTo(QrCode::class);
+    }
 }

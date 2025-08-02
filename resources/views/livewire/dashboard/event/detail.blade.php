@@ -60,8 +60,8 @@
                         <div class="card-toolbar gap-2">
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                <button type="button" class="btn btn-primary" wire:click="presence({{ $eventId }})">
-                                    Cek Absensi
+                                <button type="button" class="btn btn-primary" wire:click="generateQrCode({{ $eventId }})">
+                                    Generate QR Code Absensi
                                 </button>
                                 <!--end::Add user-->
                             </div>

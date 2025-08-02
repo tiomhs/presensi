@@ -8,13 +8,7 @@
             <x-cards.dashboard url="dashboard" title="Event" icon="ki-duotone ki-calendar-2 text-primary fs-2x ms-n1" desc="Manage events and schedules" />
         </div>
         <div class="col-xl-4">
-            <x-cards.dashboard url="dashboard" title="Committees" icon="ki-duotone ki-people text-primary fs-2x ms-n1" desc="Manage committees and their activities" />
-        </div>
-        <div class="col-xl-4">
             <x-cards.dashboard url="dashboard" title="Roles" icon="ki-duotone ki-shield-tick text-primary fs-2x ms-n1" desc="Manage user roles and permissions" />
-        </div>
-        <div class="col-xl-4">
-            <x-cards.dashboard url="dashboard" title="Attendance" icon="ki-duotone ki-calendar-tick text-primary fs-2x ms-n1" desc="Manage user attendance and participation" />
         </div>
         <div class="col-xl-4">
             <x-cards.dashboard url="dashboard" title="QR Code" icon="ki-duotone ki-faceid text-primary fs-2x ms-n1" desc="Manage QR codes for attendance" />

@@ -3,6 +3,8 @@
 namespace App\Livewire\Dashboard\Event;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Detail extends Component
 {
@@ -20,6 +22,8 @@ class Detail extends Component
     public $perPage = 10; // Default pagination
     public $isEdit = false;
     public $event;
+
+    public $token;
 
     protected $queryString = [
         'search' => ['except' => '']
@@ -75,12 +79,6 @@ class Detail extends Component
         $this->resetForm(); // Reset form fields
         $this->dispatch('open-modal');
     }
-
-    // public function presence($eventId)
-    // {
-    //     // dd('Presence method called with event ID: ' . $eventId);
-    //     return redirect()->route('dashboard.events.attendances', ['eventId' => $eventId]);
-    // }
 
     public function submit()
     {
@@ -171,5 +169,33 @@ class Detail extends Component
             'message' => 'Event Committee deleted successfully!'
         ]);
     }
+
+   public function generateQrCode($eventId)
+    {
+        $this->token = Str::random(10);
+
+        $existingQr = \App\Models\QrCode::where('event_id', $eventId)->first();
+
+        if (!$existingQr || $existingQr->expires_at <= now()) {
+            $this->addQrCode($eventId);
+        }
+
+        return redirect()->route('dashboard.qr', ['eventId' => $eventId]);
+    }
+
+    public function addQrCode($eventId)
+    {
+        \App\Models\QrCode::create([
+            'event_id'   => $eventId,
+            'token'      => $this->token,
+            'expires_at' => now()->addDay(),
+        ]);
+
+        $this->dispatch('show-alert', [
+            'type'    => 'success',
+            'message' => 'QR Code berhasil ditambahkan!',
+        ]);
+    }
+
 
 }
