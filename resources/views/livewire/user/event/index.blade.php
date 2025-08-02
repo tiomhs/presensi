@@ -62,6 +62,7 @@
                             </thead>
                             {{-- @dd($users) --}}
                             <tbody class="text-gray-600 fw-semibold">
+                                {{-- @dd($events) --}}
                                 @foreach($events as $event)
                                 {{-- @dump($event) --}}
                                     <tr>
@@ -115,18 +116,7 @@
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item px-3">
                                                     {{-- <a href="{{ route('dashboard.roles.edit', $role->id) }}" class="menu-link px-3">Edit</a> --}}
-                                                    <a href="#" class="menu-link px-3" wire:click.prevent="detail({{ $event->id }})">Panitia</a>
-                                                </div>
-                                                <!--end::Menu item-->
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    {{-- <a href="{{ route('dashboard.roles.edit', $role->id) }}" class="menu-link px-3">Edit</a> --}}
-                                                    <a href="#" class="menu-link px-3" wire:click.prevent="edit({{ $event->id }})">Edit</a>
-                                                </div>
-                                                <!--end::Menu item-->
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3" wire:click.prevent='confirmDelete({{ $event->id }})' >Delete</a>
+                                                    <a href="#" class="menu-link px-3" wire:click.prevent="absen({{ $event->event_id }})">Absen</a>
                                                 </div>
                                                 <!--end::Menu item-->
                                             </div>
@@ -179,4 +169,18 @@
         <!--end::Post-->
     </div>
 
+    @push('scripts')
+        <script>
+            window.addEventListener('show-alert', function (event) {
+                Swal.fire({
+                    icon: event.detail[0].type,
+                    title: event.detail[0].message,
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                });
+            });
+        </script>
+    @endpush
 </div>
