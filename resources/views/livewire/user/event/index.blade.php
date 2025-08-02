@@ -107,8 +107,7 @@
                                                 <span class="badge badge-light-danger">Belum Absen</span>
                                             @endif
                                         </td>
-
-                                        <td class="text-center">
+                                        <td class="text-center {{ $event->status ? 'd-none': '' }}">
                                             <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                             <!--begin::Menu-->

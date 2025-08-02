@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScanController;
 use App\Livewire\Dashboard\Index;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,10 @@ Route::get('/dashboard/event-committees', \App\Livewire\Dashboard\EventCommittee
 // Route::get('/dashboard/users/{user}', \App\Livewire\Dashboard\User\Show::class)->name('users.show');
 
 Route::get('/user/event', \App\Livewire\User\Event\Index::class)->name('user.event')->middleware(['auth', 'isnt_admin']);
+Route::get('/user/event/{eventId}/scan', \App\Livewire\User\Event\Scan::class)->name('user.event.scan')->middleware(['auth', 'isnt_admin']);
+Route::get('/user/event/{eventId}/scan/{token}', [ScanController::class, 'scan'])
+    ->name('user.event.scan.submit')
+    ->middleware(['auth', 'isnt_admin']);
 
 
 

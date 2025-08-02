@@ -13,6 +13,7 @@ class Index extends Component
     public $perPage = 10; // Default pagination
     public $isEdit = false;
 
+
     public function updatingPerPage()
     {
         $this->resetPage(); // reset to page 1 whenever per page count is changed
@@ -23,9 +24,31 @@ class Index extends Component
 
     public function mount()
     {
-        // Initialize the userId if needed, for example, from the authenticated user
         $this->userId = auth()->id();
+
+        // Ambil session flash
+        $success = session('success');
+        $error = session('error');
+
+        // Hapus session setelah diambil
+        session()->forget(['success', 'error']);
+
+        // Tampilkan SweetAlert sesuai kondisi
+        if ($success) {
+            $this->dispatch('show-alert', [
+                'type' => 'success',
+                'message' => $success ?? 'Berhasil Melakukan Absensi',
+            ]);
+        }
+
+        if ($error) {
+            $this->dispatch('show-alert', [
+                'type' => 'error',
+                'message' => $error ?? 'Terjadi kesalahan. Silakan coba lagi.',
+            ]);
+        }
     }
+
 
     public function render()
     {
