@@ -194,7 +194,13 @@
                             <!--end::Menu item-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
-                                <a href="../../demo8/dist/authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a>
+                                <form action="{{ route('logout') }}" method="POST" id="logout-form">
+                                    @csrf
+                                    <a href="#" class="menu-link px-5" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Sign Out
+                                    </a>
+                                </form>
+                                {{-- <a href="../../demo8/dist/authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a> --}}
                             </div>
                             <!--end::Menu item-->
                         </div>
@@ -878,8 +884,8 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
-                    <!--begin:Menu sub-->
-                    <div class="menu-sub menu-sub-accordion">
+                    <!--begin:Menu sub admin-->
+                    <div class="menu-sub menu-sub-accordion {{ Auth::user()->is_admin ? '' : 'd-none' }}" data-kt-menu="true">
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
@@ -929,9 +935,26 @@
                         </div>
                         <!--end:Menu item-->
                     </div>
-                    <!--end:Menu sub-->
+                    <!--end:Menu sub admin-->
+                    <!--begin:Menu sub admin-->
+                    <div class="menu-sub menu-sub-accordion {{ Auth::user()->is_admin ? 'd-none' : '' }}" data-kt-menu="true">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="{{ route('dashboard.events') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Events Management</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    </div>
+                    <!--end:Menu sub admin-->
                 </div>
                 <!--end:Menu item-->
+            </div>
         </div>
         <!--end::Aside Menu-->
     </div>
