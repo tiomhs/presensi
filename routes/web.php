@@ -23,7 +23,7 @@ Route::get('/dashboard/event-committees', \App\Livewire\Dashboard\EventCommittee
 
 // Route::get('/dashboard/users/{user}', \App\Livewire\Dashboard\User\Show::class)->name('users.show');
 
-Route::get('/user/event', \App\Livewire\User\Event\Index::class)->name('user.event');
+Route::get('/user/event', \App\Livewire\User\Event\Index::class)->name('user.event')->middleware(['auth', 'isnt_admin']);
 
 
 
