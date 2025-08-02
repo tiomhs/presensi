@@ -5,12 +5,13 @@ use App\Http\Controllers\ScanController;
 use App\Livewire\Dashboard\Index;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware(['auth', 'is_admin'])->name('home');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->middleware(['auth', 'is_admin'])->name('home');
 
 
 // Route::get('/', Index::class);
+Route::get('/', Index::class)->middleware(['auth', 'is_admin']);
 Route::get('/dashboard', Index::class)->name('dashboard')->middleware(['auth', 'is_admin']);
 Route::get('/dashboard/users', \App\Livewire\Dashboard\User\Index::class)->name('dashboard.users')->middleware(['auth', 'is_admin']);
 Route::get('/dashboard/roles', \App\Livewire\Dashboard\Role\Index::class)->name('dashboard.roles')->middleware(['auth', 'is_admin']);
