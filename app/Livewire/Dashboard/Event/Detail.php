@@ -2,11 +2,15 @@
 
 namespace App\Livewire\Dashboard\Event;
 
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Event;
 use Livewire\Component;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\EventCommittee;
 use App\Exports\EventCommitteeExport;
+use App\Imports\EventCommitteImport;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -15,6 +19,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 class Detail extends Component
 {
     use \Livewire\WithPagination;
+    use \Livewire\WithFileUploads;
 
     public $eventId;
     public $eventCommitteeId;
@@ -30,6 +35,9 @@ class Detail extends Component
     public $event;
 
     public $token;
+    public $file;
+
+    public $importErrors = [];
 
     protected $queryString = [
         'search' => ['except' => '']
@@ -244,5 +252,36 @@ class Detail extends Component
         }, $filename);
     }
 
+    public function showImportModal()
+    {
+        $this->dispatch('open-import-modal');
+    }
+
+    public function import()
+    {
+         $this->validate([
+            'file' => 'required|file|mimes:xlsx,csv,xls',
+        ]);
+
+        $import = new EventCommitteImport($this->eventId);
+        Excel::import($import, $this->file);
+
+        // ambil error yang terkumpul dari import
+        $this->importErrors = $import->errors;
+
+        if (empty($this->importErrors)) {
+            $this->dispatch('show-alert', [
+                'type' => 'success',
+                'message' => 'Data berhasil diimport!'
+            ]);
+            $this->dispatch('close-import-modal');
+        } else {
+            $this->dispatch('show-alert', [
+                'type' => 'warning',
+                'message' => 'Import selesai, tapi ada beberapa baris gagal.'
+            ]);
+            $this->dispatch('close-import-modal');
+        }
+    }
 
 }
