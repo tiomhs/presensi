@@ -62,6 +62,7 @@ class Detail extends Component
             // 'eventCommittees' => $this->getEventCommittees(),
         ])->layout('layouts.app', [
             'page' => 'Event Detail',
+            'sidebar' => 'Event',
         ]);
     }
 

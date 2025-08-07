@@ -10,6 +10,7 @@ class Index extends Component
     {
         return view('livewire.dashboard.index')->layout('layouts.app', [
             'page' => 'Dashboard',
+            'sidebar' => 'Dashboard',
         ]);
     }
 }

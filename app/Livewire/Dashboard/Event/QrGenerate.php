@@ -38,6 +38,7 @@ class QrGenerate extends Component
             'dataUri' => $this->dataUri,
         ])->layout('layouts.app', [
             'page' => 'Generate QR Code',
+            'sidebar' => 'Event',
         ]);
     }
 

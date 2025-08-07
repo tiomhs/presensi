@@ -103,6 +103,7 @@ class Index extends Component
             'roles' => $this->getRoles(),
         ])->layout('layouts.app', [
             'page' => 'Role Management',
+            'sidebar' => 'Role',
         ]);
     }
 

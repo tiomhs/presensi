@@ -58,10 +58,11 @@ class Index extends Component
     {
         return view('livewire.dashboard.event.index',
             [
-                'events' => $this->getEvents()
+                'events' => $this->getEvents(),
             ]
         )->layout('layouts.app', [
             'page' => 'Event Management',
+            'sidebar' => 'Event',
         ]);
     }
 

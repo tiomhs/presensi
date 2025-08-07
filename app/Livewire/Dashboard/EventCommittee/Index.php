@@ -48,6 +48,7 @@ class Index extends Component
         ])
         ->layout('layouts.app', [
             'page' => 'Event Committee Management',
+            'sidebar' => 'Event Committee',
         ]);
     }
 

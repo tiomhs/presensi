@@ -35,6 +35,7 @@ class Index extends Component
             'users' => $this->getUsers(),
         ])->layout('layouts.app', [
             'page' => 'User Management',
+            'sidebar' => 'User',
         ]);
     }
 
