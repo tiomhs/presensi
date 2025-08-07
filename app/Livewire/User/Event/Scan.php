@@ -22,6 +22,7 @@ class Scan extends Component
         // dd($this->token);
         return view('livewire.user.event.scan')->layout('layouts.app', [
             'page' => 'Scan Event',
+            'sidebar' => 'Event',
         ]);
     }
 }

@@ -25,11 +25,11 @@
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
                             <!--begin::Toolbar-->
-                            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                            {{-- <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                 <button type="button" class="btn btn-primary" wire:click="create">
                                 <i class="ki-duotone ki-plus fs-2"></i>Add Events</button>
-                                <!--end::Add user-->
-                            </div>
+                            
+                            </div> --}}
                             <!--end::Toolbar-->
                             <!--begin::Group actions-->
                             <div class="d-flex justify-content-end align-items-center d-none" data-kt-user-table-toolbar="selected">

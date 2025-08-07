@@ -59,6 +59,7 @@ class Index extends Component
             ]
         )->layout('layouts.app', [
             'page' => 'User Events',
+            'sidebar' => 'Event User',
         ]);
     }
 
