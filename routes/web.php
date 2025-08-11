@@ -23,8 +23,6 @@ Route::get('/dashboard/events/{eventId}/qr', \App\Livewire\Dashboard\Event\QrGen
 //     ->name('dashboard.events.attendances');
 Route::get('/dashboard/event-committees', \App\Livewire\Dashboard\EventCommittee\Index::class)->name('dashboard.eventCommittees')->middleware(['auth', 'is_admin']);
 
-// Route::get('/dashboard/users/{user}', \App\Livewire\Dashboard\User\Show::class)->name('users.show');
-
 Route::get('/user/event', \App\Livewire\User\Event\Index::class)->name('user.event')->middleware(['auth', 'isnt_admin']);
 Route::get('/user/event/{eventId}/scan', \App\Livewire\User\Event\Scan::class)->name('user.event.scan')->middleware(['auth', 'isnt_admin']);
 Route::get('/user/event/{eventId}/scan/{token}', [ScanController::class, 'scan'])
