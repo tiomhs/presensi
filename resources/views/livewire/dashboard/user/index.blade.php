@@ -234,7 +234,7 @@
      tabindex="-1"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true"
-     wire:key="modal-{{ $isEdit ? $eventId : 'create' }}"
+     wire:key="import-modal"
      wire:ignore.self>
           <div class="modal-dialog modal-dialog-centered mw-650px">
             <!--begin::Modal content-->
