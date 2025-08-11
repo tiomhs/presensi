@@ -128,6 +128,7 @@
      tabindex="-1"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true"
+        wire:ignore.self
      wire:key="modal-{{ $isEdit ? $userId : 'create' }}">
           <div class="modal-dialog modal-dialog-centered mw-650px">
             <!--begin::Modal content-->

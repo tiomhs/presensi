@@ -10,16 +10,16 @@
         <td class="d-flex align-items-center">
             <!--begin:: Avatar -->
             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                <a href="../../demo8/dist/apps/user-management/users/view.html">
+                <a href="#">
                     <div class="symbol-label">
-                        {{-- <img src="{{ asset('storage/media/avatars/300-6.jpg') }}" alt="{{ $user->name }}" class="w-100" /> --}}
+                        <img src="{{ asset('storage/images/blank.svg') }}" alt="{{ $user->name }}" class="w-100" />
                     </div>
                 </a>
             </div>
             <!--end::Avatar-->
             <!--begin::User details-->
             <div class="d-flex flex-column">
-                <a href="../../demo8/dist/apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">{{ $user->name }}</a>
+                <a href="#" class="text-gray-800 text-hover-primary mb-1">{{ $user->name }}</a>
                 <span>{{ $user->email }}</span>
             </div>
             <!--begin::User details-->

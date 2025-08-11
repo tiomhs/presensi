@@ -4,30 +4,23 @@ namespace App\Livewire\Dashboard\User;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use \Livewire\WithPagination;
+    use WithPagination;
 
     public $search = '';
-    public $name;
-    public $email;
-    public $nim;
-    public $password;
+    public $perPage = 10;
 
-    public $perPage = 10; // Default pagination
-    public $isEdit = false;
+    public $name, $email, $nim, $password;
     public $userId;
+    public $isEdit = false;
     public $confirmingDeleteId = null;
-        
+
     protected $queryString = [
         'search' => ['except' => '']
     ];
-
-    public function updatingPerPage()
-    {
-        $this->resetPage(); // reset ke halaman 1 tiap kali jumlah per page diubah
-    }
 
     public function render()
     {
@@ -39,53 +32,46 @@ class Index extends Component
         ]);
     }
 
-    public function getUsers()
+    private function getUsers()
     {
         return User::when($this->search, function ($q) {
             $q->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%')
-                    ->orWhere('nim', 'like', '%' . $this->search . '%');
+                $query->where('name', 'like', "%{$this->search}%")
+                    ->orWhere('email', 'like', "%{$this->search}%")
+                    ->orWhere('nim', 'like', "%{$this->search}%");
             });
         })->paginate($this->perPage);
     }
 
-    public function data()
+    public function updatingPerPage()
     {
-        return [
-            'name' => $this->name,
-            'email' => $this->email,
-            'nim' => $this->nim,
-            'password' => $this->password,
-        ];
+        $this->resetPage();
     }
 
-    protected $rules = [
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:users,email',
-        'nim' => 'required|string|max:20|unique:users,nim',
-        'password' => 'required|string|min:8',
-    ];
-
-    public function resetForm()
+    private function resetForm()
     {
-        $this->reset(['name', 'email', 'nim', 'password']);
-        $this->name = '';
-        $this->email = '';
-        $this->nim = '';
-        $this->password = '';
-        $this->isEdit = false;
+        $this->reset(['name', 'email', 'nim', 'password', 'isEdit', 'userId']);
+    }
+
+    private function getValidationRules($isEdit = false)
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email' . ($isEdit ? ',' . $this->userId : ''),
+            'nim' => 'required|string|max:20|unique:users,nim' . ($isEdit ? ',' . $this->userId : ''),
+            'password' => $isEdit ? 'nullable|string|min:8' : 'required|string|min:8',
+        ];
     }
 
     public function create()
     {
-        $this->resetForm(); // Reset form sebelum membuka modal
-        $this->dispatch('open-modal'); // Tampilkan modal
+        $this->resetForm();
+        $this->dispatch('open-modal');
     }
 
-    public function submit()
+    public function store()
     {
-        $this->validate();
+        $this->validate($this->getValidationRules());
 
         User::create([
             'name' => $this->name,
@@ -94,12 +80,9 @@ class Index extends Component
             'password' => bcrypt($this->password),
         ]);
 
-    //    $this->reset(['name', 'email', 'nim', 'password']); // ✅ Reset field aja
+        $this->resetForm();
         $this->dispatch('close-modal');
-        $this->dispatch('show-alert', [
-            'type' => 'success',
-            'message' => 'User berhasil ditambahkan!'
-        ]);
+        $this->alertSuccess('User berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -110,7 +93,7 @@ class Index extends Component
         $this->name = $user->name;
         $this->email = $user->email;
         $this->nim = $user->nim;
-        $this->password = ''; // Password tidak diisi saat edit
+        $this->password = '';
         $this->isEdit = true;
 
         $this->dispatch('open-modal');
@@ -118,29 +101,22 @@ class Index extends Component
 
     public function update()
     {
-        // $this->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|email|max:255',
-        //     'nim' => 'required|string|max:20|unique:users',
-        //     'password' => 'nullable|string|min:8', // Password boleh kosong saat update
-        // ]);
+        $this->validate($this->getValidationRules(true));
 
         $user = User::findOrFail($this->userId);
         $user->update([
             'name' => $this->name,
             'email' => $this->email,
             'nim' => $this->nim,
-            'password' => $this->password ? bcrypt($this->password) : $user->password, // Update password only if provided
+            'password' => $this->password ? bcrypt($this->password) : $user->password,
         ]);
 
+        $this->resetForm();
         $this->dispatch('close-modal');
-        $this->dispatch('show-alert', [
-            'type' => 'success',
-            'message' => 'User berhasil diperbarui!'
-        ]);
+        $this->alertSuccess('User berhasil diperbarui!');
     }
 
-     public function confirmDelete($id)
+    public function confirmDelete($id)
     {
         $this->confirmingDeleteId = $id;
         $this->dispatch('show-delete-confirmation');
@@ -148,16 +124,18 @@ class Index extends Component
 
     public function delete()
     {
-        $user = \App\Models\User::findOrFail($this->confirmingDeleteId);
-        $user->delete();
+        User::findOrFail($this->confirmingDeleteId)->delete();
         $this->confirmingDeleteId = null;
-        $this->dispatch('show-alert', [
-            'type' => 'success',
-            'message' => 'User berhasil dihapus!'
-        ]);
+
+        $this->alertSuccess('User berhasil dihapus!');
     }
 
-
-
-
+    // ===== HELPER ALERT =====
+    private function alertSuccess($message)
+    {
+        $this->dispatch('show-alert', [
+            'type' => 'success',
+            'message' => $message
+        ]);
+    }
 }
