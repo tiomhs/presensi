@@ -3,23 +3,27 @@
     <div id="kt_header" style="" class="header align-items-stretch">
     <!--begin::Brand-->
     <div class="header-brand">
-        <!--begin::Logo-->
-        <a href="../../demo8/dist/index.html">
-            <img alt="Logo" src="{{ asset('storage/assets/media/logos/default-dark.svg') }}" class="h-25px h-lg-25px" />
-        </a>
-        <!--end::Logo-->
-        <!--begin::Aside minimize-->
-        <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-minimize" data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body" data-kt-toggle-name="aside-minimize">
-            <i class="ki-duotone ki-entrance-right fs-1 me-n1 minimize-default">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-            <i class="ki-duotone ki-entrance-left fs-1 minimize-active">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Aside minimize-->
+        {{-- <div class="d-flex align-items-center justify-content-between"> --}}
+            <!--begin::Logo-->
+            <a href="/">
+                <h2 class="text-bold text-white fs-1">Presense</h2>
+                {{-- <img alt="Logo" src="{{ asset('storage/assets/media/logos/default-dark.svg') }}" class="h-25px h-lg-25px" /> --}}
+            </a>
+            <!--end::Logo-->
+            <!--begin::Aside minimize-->
+            <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-minimize" data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body" data-kt-toggle-name="aside-minimize">
+                <i class="ki-duotone ki-entrance-right fs-1 me-n1 minimize-default">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+                <i class="ki-duotone ki-entrance-left fs-1 minimize-active">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+
+            </div>
+            <!--end::Aside minimize-->
+        {{-- </div> --}}
         <!--begin::Aside toggle-->
         <div class="d-flex align-items-center d-lg-none me-n2" title="Show aside menu">
             <div class="btn btn-icon btn-active-color-primary w-30px h-30px" id="kt_aside_mobile_toggle">
@@ -68,5 +72,4 @@
         <!--end::Toolbar container-->
     </div>
     <!--end::Toolbar-->
-</div>
 </div>

@@ -1,4 +1,5 @@
 @props(['sidebar'])
+<div>
     <!--begin::Aside Toolbarl-->
     <div class="aside-toolbar flex-column-auto" id="kt_aside_toolbar">
         <!--begin::Aside user-->
@@ -6,7 +7,7 @@
         <div class="aside-user d-flex align-items-sm-center justify-content-center py-5">
             <!--begin::Symbol-->
             <div class="symbol symbol-50px">
-                {{-- <img src="{{ asset('storage/assets/media/avatars/002-girl.svg') }}" alt="" /> --}}
+                <img src="{{ asset('storage/images/blank.svg') }}" alt="" />
             </div>
             <!--end::Symbol-->
             <!--begin::Wrapper-->
