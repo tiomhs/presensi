@@ -70,9 +70,9 @@
                                         <td class="d-flex align-items-center">
                                             <!--begin:: Avatar -->
                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                <a href="../../demo8/dist/apps/user-management/users/view.html">
+                                                <a href="#">
                                                     <div class="symbol-label">
-                                                        {{-- <img src="{{ asset('storage/media/avatars/300-6.jpg') }}" alt="{{ $user->name }}" class="w-100" /> --}}
+                                                        <img src="{{ asset('storage/images/blank.svg') }}"  class="w-100" />
                                                     </div>
                                                 </a>
                                             </div>
@@ -173,7 +173,8 @@
      tabindex="-1"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true"
-     wire:key="modal-{{ $isEdit ? $eventId : 'create' }}">
+     wire:key="modal-{{ $isEdit ? $eventId : 'create' }}"
+     wire:ignore.self>
           <div class="modal-dialog modal-dialog-centered mw-650px">
             <!--begin::Modal content-->
             <div class="modal-content">
