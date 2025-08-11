@@ -4,14 +4,20 @@ namespace App\Livewire\Dashboard\User;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Imports\UsersImport;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Database\QueryException;
 
 class Index extends Component
 {
     use WithPagination;
+    use WithFileUploads;
 
     public $search = '';
     public $perPage = 10;
+    public $file;
 
     public $name, $email, $nim, $password;
     public $userId;
@@ -130,7 +136,42 @@ class Index extends Component
         $this->alertSuccess('User berhasil dihapus!');
     }
 
-    // ===== HELPER ALERT =====
+    public function showImportModal()
+    {
+        $this->dispatch('open-import-modal');
+    }
+
+
+    public function import()
+    {
+         $this->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:10240',
+        ]);
+
+        try {
+            Excel::import(new UsersImport, $this->file->getRealPath());
+
+            $this->reset('file');
+            $this->dispatch('show-alert', [
+                'type' => 'success',
+                'message' => 'User berhasil diimport!',
+            ]);
+        } catch (QueryException $e) {
+            // Cek kode error duplikat (MySQL: 23000)
+            if ($e->getCode() == '23000') {
+                $this->dispatch('show-alert', [
+                    'type' => 'error',
+                    'message' => 'Import gagal: Email atau NIM sudah ada yang duplikat!',
+                ]);
+            } else {
+                $this->dispatch('show-alert', [
+                    'type' => 'error',
+                    'message' => 'Terjadi kesalahan saat import!',
+                ]);
+            }
+        }
+    }
+
     private function alertSuccess($message)
     {
         $this->dispatch('show-alert', [

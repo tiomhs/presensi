@@ -26,11 +26,11 @@
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                 <!--begin::Export-->
-                                <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_export_users">
+                                <button type="button" wire:click="showImportModal" class="btn btn-light-primary me-3">
                                 <i class="ki-duotone ki-exit-up fs-2">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
-                                </i>Export</button>
+                                </i>import</button>
                                 <!--end::Export-->
                                 <!--begin::Add user-->
                                 {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -124,7 +124,7 @@
 
 
     {{-- modal --}}
-     <div class="modal fade" id="add_role_modal"
+    <div class="modal fade" id="add_role_modal"
      tabindex="-1"
      aria-labelledby="exampleModalLabel"
      aria-hidden="true"
@@ -229,6 +229,79 @@
         </div>
     </div>
 
+    {{-- modal import --}}
+    <div class="modal fade" id="import_modal"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true"
+     wire:key="modal-{{ $isEdit ? $eventId : 'create' }}"
+     wire:ignore.self>
+          <div class="modal-dialog modal-dialog-centered mw-650px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+                <!--begin::Modal header-->
+                <div class="modal-header" id="kt_modal_add_user_header">
+                    <!--begin::Modal title-->
+                    <h2 class="fw-bold">Import User</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-icon-primary" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <!--end::Modal header-->
+                <!--begin::Modal body-->
+                <div class="modal-body px-5 my-7">
+                    <!--begin::Form-->
+                    {{-- @dump($isEdit) --}}
+                    <form id="kt_modal_add_user_form" class="form" wire:submit.prevent="import" >
+                        <!--begin::Scroll-->
+                        <div class="d-flex flex-column scroll-y px-5 px-lg-10" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
+                            <input type="hidden" name="eventId" wire:model="eventId" />
+
+                            <!-- Division -->
+                            <div class="input-group mb-3">
+                                <input wire:model.defer='file' type="file" class="form-control @error('file') is-invalid @enderror" id="inputGroupFile02">
+                                <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                                 @error('file')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                           <p>
+                                Belum punya file? 
+                                <a href="{{ asset('storage/templates/template_import_panitia.xlsx') }}" class="text-primary" download>
+                                    Download Template
+                                </a>
+                            </p>
+                            <p wire:loading.delay class="text-warning">
+                                file sedang diupload, tunggu sampai selesai sebelum submit.
+                            </p>
+
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="text-center pt-10">
+                            <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
+                            <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
+                                <span class="indicator-label">{{ $isEdit ? 'Update' : 'Submit' }}</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!--end::Form-->
+                </div>
+                <!--end::Modal body-->
+            </div>
+            <!--end::Modal content-->
+        </div>
+    </div>
+
 
     @push('scripts')
         <script>
@@ -246,6 +319,22 @@
                     const modal = bootstrap.Modal.getOrCreateInstance(modalEl); // ← pakai getOrCreate biar nggak dobel
                     modal.show();
                 }, 200); // kasih delay biar data Livewire udah kebaca
+            });
+
+            window.addEventListener('open-import-modal', () => {
+                setTimeout(() => {
+                    const modalEl = document.getElementById('import_modal');
+                    const modal = bootstrap.Modal.getOrCreateInstance(modalEl); // ← pakai getOrCreate biar nggak dobel
+                    modal.show();
+                }, 200); // kasih delay biar data Livewire udah kebaca
+            });
+
+             window.addEventListener('close-import-modal', () => {
+                const modalEl = document.getElementById('import_modal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
             });
         </script>
     @endpush
