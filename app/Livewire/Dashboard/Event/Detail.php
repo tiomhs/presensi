@@ -7,10 +7,10 @@ use App\Models\User;
 use App\Models\Event;
 use Livewire\Component;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Models\EventCommittee;
-use App\Exports\EventCommitteeExport;
 use App\Imports\EventCommitteImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Database\QueryException;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -260,29 +260,26 @@ class Detail extends Component
 
     public function import()
     {
-         $this->validate([
+        $this->validate([
             'file' => 'required|file|mimes:xlsx,csv,xls',
         ]);
 
-        $import = new EventCommitteImport($this->eventId);
-        Excel::import($import, $this->file);
+        $importer = new EventCommitteImport($this->eventId);
+        Excel::import($importer, $this->file->getRealPath());
 
-        // ambil error yang terkumpul dari import
-        $this->importErrors = $import->errors;
+        $this->reset('file');
+        $this->dispatch('close-import-modal');
 
-        if (empty($this->importErrors)) {
-            $this->dispatch('show-alert', [
-                'type' => 'success',
-                'message' => 'Data berhasil diimport!'
-            ]);
-            $this->dispatch('close-import-modal');
-        } else {
-            $this->dispatch('show-alert', [
-                'type' => 'warning',
-                'message' => 'Import selesai, tapi ada beberapa baris gagal.'
-            ]);
-            $this->dispatch('close-import-modal');
-        }
+        $message = "{$importer->successCount} data berhasil diinput. <br>"
+                . "{$importer->duplicateCount} data duplikat. <br>"
+                . "{$importer->invalidCount} data gagal / tidak valid.";
+
+        $this->dispatch('show-alert', [
+            'type' => 'success',
+            'message' => $message,
+        ]);
     }
+
+
 
 }

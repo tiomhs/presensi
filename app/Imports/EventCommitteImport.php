@@ -11,8 +11,11 @@ use Maatwebsite\Excel\Concerns\ToModel;
 class EventCommitteImport implements ToModel
 {
     public $eventId;
-    public $errors = []; // buat nyimpan error per row
-    private $rowNumber = 1;
+    public $successCount = 0;
+    public $duplicateCount = 0;
+    public $invalidCount = 0;
+
+    public $user, $nim, $role, $division;
 
     public function __construct($eventId)
     {
@@ -21,23 +24,28 @@ class EventCommitteImport implements ToModel
 
     public function model(array $row)
     {
-        $this->rowNumber++;
+        $user = User::where('nim', $row[1])->first();
+        $role = Role::where('name', $row[2])->first();
+        $division = $row[3];
 
-        $nim      = $row['nim'] ?? null;
-        $roleName = $row['role'] ?? null;
-        $division = $row['division'] ?? null;
-
-        $user = User::where('nim', $nim)->first();
-        if (!$user) {
-            $this->errors[] = "Baris {$this->rowNumber}: NIM {$nim} tidak ditemukan";
+        // Data tidak valid
+        if (!$user || !$role || !$division) {
+            $this->invalidCount++;
             return null;
         }
 
-        $role = Role::where('name', $roleName)->first();
-        if (!$role) {
-            $this->errors[] = "Baris {$this->rowNumber}: Role {$roleName} tidak ditemukan";
+        // Data duplikat
+        $exists = EventCommittee::where('event_id', $this->eventId)
+            ->where('user_id', $user->id)
+            ->exists();
+
+        if ($exists) {
+            $this->duplicateCount++;
             return null;
         }
+
+        // Data berhasil
+        $this->successCount++;
 
         return new EventCommittee([
             'event_id' => $this->eventId,

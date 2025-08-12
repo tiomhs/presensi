@@ -380,6 +380,8 @@
                                 <label class="input-group-text" for="inputGroupFile02">Upload</label>
                             </div>
 
+                            <p wire:loading class="text-warning">Sedang mengupload...</p>
+
                            <p>
                                 Belum punya file? 
                                 <a href="{{ asset('storage/templates/template_import_panitia.xlsx') }}" class="text-primary" download>
@@ -393,7 +395,7 @@
                         <!-- Actions -->
                         <div class="text-center pt-10">
                             <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
                                 <span class="indicator-label">{{ $isEdit ? 'Update' : 'Submit' }}</span>
                             </button>
                         </div>
@@ -484,7 +486,7 @@
                     title: event.detail[0].message,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 2000,
+                    timer: 5000,
                     timerProgressBar: true,
                 });
             });
