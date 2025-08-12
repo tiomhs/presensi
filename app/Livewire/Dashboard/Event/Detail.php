@@ -13,7 +13,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class Detail extends Component
@@ -216,36 +215,38 @@ class Detail extends Component
     {
         $templatePath = storage_path('app/templates/template.xlsx');
         $spreadsheet = IOFactory::load($templatePath);
-        $sheet = $spreadsheet->getSheetByName('Absensi'); // Pastikan sesuai nama sheet
+        $sheet = $spreadsheet->getSheetByName('Absensi');
 
         $data = EventCommittee::where('event_id', $this->eventId)->get();
+        // dd($data);
 
         $startRow = 2; // mulai setelah header
+
         foreach ($data as $index => $item) {
-            // dd($item);
             $row = $startRow + $index;
-            $sheet->setCellValue("A{$row}", $index + 1); // NO
-            $sheet->setCellValue("B{$row}", $item->user->name); // NAMA
-            $sheet->setCellValue("C{$row}", $item->role->name); // JABATAN
-            // dd($item->status);
-            $sheet->getStyle("A{$row}:D{$row}")->getAlignment()->setVertical('center');
-            $sheet->getRowDimension($row)->setRowHeight(40); // Tinggikan row buat nampung ttd
 
-            if ($item->status) {
-                // Path ke gambar tanda tangan (bisa dari storage/public)
-                $imagePath = storage_path('app/templates/ttd.jpg'); // Ganti path sesuai lokasi gambar
+            // Isi data text
+            $sheet->setCellValue("A{$row}", $index + 1); 
+            $sheet->setCellValue("B{$row}", $item->user->name);
+            $sheet->setCellValue("C{$row}", $item->role->name);
 
-                if (file_exists($imagePath)) {
-                    $drawing = new Drawing();
-                    $drawing->setPath($imagePath);
-                    $drawing->setCoordinates("D{$row}");
-                    $drawing->setHeight(35); // Sesuaikan tinggi gambar
-                    $drawing->setWorksheet($sheet);
-                }
+
+
+            // Style row
+            $sheet->getStyle("A{$row}:D{$row}")
+                ->getAlignment()->setVertical('center');
+            $sheet->getRowDimension($row)->setRowHeight(40);
+
+            // Kalau status = hadir, kasih gambar
+           if ($item->status === 1) {
+                $sheet->setCellValue("D{$row}", "✓");
+                $sheet->getStyle("D{$row}")->getFont()->setItalic(true)->setSize(12);
+                $sheet->getStyle("D{$row}")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
             }
         }
-        // dd($this->event);
-        $filename = 'laporan_' . $this->event->name. '-' .now()->format('Ymd_His') . '.xlsx';
+
+        // Output file
+        $filename = 'laporan_' . $this->event->name . '-' . now()->format('Ymd_His') . '.xlsx';
         $writer = new Xlsx($spreadsheet);
 
         return response()->streamDownload(function () use ($writer) {
