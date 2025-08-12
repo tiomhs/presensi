@@ -90,6 +90,7 @@ class Index extends Component
 
         \App\Models\Role::create($this->data());
         $this->dispatch('close-modal');
+        $this->resetForm();
         $this->dispatch('show-alert', [
             'type' => 'success',
             'message' => 'Role berhasil ditambahkan!'
