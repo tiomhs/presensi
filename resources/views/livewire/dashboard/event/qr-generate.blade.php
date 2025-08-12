@@ -24,7 +24,7 @@
 							<!--begin::Title-->
 							<div class="mb-6">
 								<span class="text-gray-400 fs-7 fw-bold me-2 d-block lh-1 pb-1">Tokens : {{ $qrTokens->token }}</span>
-								<a href="../../demo8/dist/apps/projects/users.html" class="text-gray-800 text-hover-primary fs-1 fw-bold">{{ $event->name	 }}</a>
+								<a href="#" class="text-gray-800 text-hover-primary fs-1 fw-bold">{{ $event->name	 }}</a>
 							</div>
 							<!--end::Title-->
 							<!--begin::Items-->
@@ -33,7 +33,7 @@
 								<div class="d-flex align-items-center me-5 me-xl-13">
 									<!--begin::Symbol-->
 									<div class="symbol symbol-30px symbol-circle me-3">
-										<img src="assets/media/avatars/300-3.jpg" class="" alt="" />
+										<img src="{{ asset('storage/images/blank.svg') }}" class="" alt="" />
 									</div>
 									<!--end::Symbol-->
 									<!--begin::Info-->
