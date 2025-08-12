@@ -51,12 +51,12 @@ class DatabaseSeeder extends Seeder
         // }
 
         // ROLES
-        // $roles = ['Chairperson', 'Secretary', 'Treasurer', 'Logistics', 'Public Relations', 'Media', 'Security', 'Consumption', 'Documentation', 'Technician'];
-        // foreach ($roles as $role) {
-        //     DB::table('roles')->insert([
-        //         'name' => $role
-        //     ]);
-        // }
+        $roles = ['Penanggung Jawab','Ketua Umum','Wakil Ketua Umum', 'Ketua Panitia', 'Wakil Ketua Panitia', 'Sekretaris', 'Bendahara'];
+        foreach ($roles as $role) {
+            DB::table('roles')->insert([
+                'name' => $role
+            ]);
+        }
 
         // EVENT_COMMITTEES
         // for ($i = 1; $i <= 10; $i++) {
